@@ -2,13 +2,17 @@ package com.ProjectIRP.InstituteResourcePlanning.Models;
 
 import com.ProjectIRP.InstituteResourcePlanning.Utilities.InstituteRoles;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 
 @Entity
-@Getter @Setter @ToString
+@Getter
+@Setter
+@AllArgsConstructor
+@ToString
 public class Users {
 
     @Id
@@ -23,8 +27,7 @@ public class Users {
     @Enumerated(EnumType.STRING)
     private InstituteRoles roles;
 
-    private boolean isActive;
-
+    private boolean isActive;  /// col in DB (postgres) → is_active
 
 
 }

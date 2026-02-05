@@ -24,7 +24,11 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) {  /// this will allow not to use default spring-security filters instead of that use this one(filter)
         return httpSecurity
                 .csrf(customizer -> customizer.disable())
-                .authorizeHttpRequests(request -> request.anyRequest().authenticated())
+                .authorizeHttpRequests(request ->
+                        request
+//                                .requestMatchers("register-user")
+//                                .permitAll()
+                                .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -36,6 +40,7 @@ public class SecurityConfig {
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider(userDetailsService);
         daoAuthenticationProvider.setPasswordEncoder(NoOpPasswordEncoder.getInstance());
+
 
         return daoAuthenticationProvider;
     }
