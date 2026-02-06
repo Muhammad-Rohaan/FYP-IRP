@@ -15,10 +15,10 @@ public class UserController {
     private UserService userService;
 
 
-    @PostMapping("/register-user")
-    public Users registerUser(@RequestBody Users user) {
-        return userService.userRegistration(user);
-    }
+//    @PostMapping("/register-user")
+//    public Users registerUser(@RequestBody Users user) {
+//        return userService.userRegistration(user);
+//    }
 
 
 }
