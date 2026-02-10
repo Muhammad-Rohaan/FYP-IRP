@@ -25,8 +25,9 @@ public class UserPrincipal implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        System.out.println(users.getRoles().name());  // ADMIN
-        return List.of(new SimpleGrantedAuthority(users.getRoles().name().toUpperCase()));
+//        System.out.println(users.getRoles().name());  // ADMIN
+        String completeUser = "ROLE_" + users.getRoles().name().toUpperCase();
+        return List.of(new SimpleGrantedAuthority(completeUser));
     }
 
     @Override
@@ -36,7 +37,7 @@ public class UserPrincipal implements UserDetails {
 
     @Override
     public String getUsername() {
-        return users.getFullName();
+        return users.getEmail();
     }
 
     public String getUserEmail() {

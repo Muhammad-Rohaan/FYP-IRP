@@ -28,7 +28,10 @@ public class SecurityConfig {
     private IrpUserDetailsService irpUserDetailsService;
 
     @Autowired
+    private JwtFilter jwtFilter;
+    @Autowired
     private JwtUtil jwtUtil;
+
 
 //    @Bean
 //    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) {  /// this will allow not to use default spring-security filters instead of that use this one(filter)
@@ -52,9 +55,8 @@ public class SecurityConfig {
 
         http
                 .csrf(csrf -> csrf.disable())
-
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/login", "/register-user").permitAll()
+                        .requestMatchers("/auth/login", "/auth/register-user", "/").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/reception/**").hasRole("RECEPTIONIST")
                         .requestMatchers("/teacher/**").hasRole("TEACHER")
@@ -68,7 +70,7 @@ public class SecurityConfig {
                 );
 
         // JWT filter
-         http.addFilterBefore(new JwtFilter(jwtUtil, irpUserDetailsService), UsernamePasswordAuthenticationFilter.class);
+         http.addFilterBefore(new JwtFilter(jwtUtil, irpUserDetailsService) /*jwtFilter*/ , UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

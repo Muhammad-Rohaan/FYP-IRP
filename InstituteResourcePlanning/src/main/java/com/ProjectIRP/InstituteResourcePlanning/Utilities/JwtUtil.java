@@ -44,8 +44,20 @@ public class JwtUtil {
 
     public boolean validateJwtToken(String jwtToken, UserDetails userDetails) {
 
-        String username = getUsernameFromJwtToken(jwtToken);
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(jwtToken));
+        boolean flag = false;
+        String username = getUserEmailFromJwtToken(jwtToken);
+
+        if (username.equals(userDetails.getUsername()) && !isTokenExpired(jwtToken)) {
+            flag = true;
+        }
+//        System.out.println(username);  /// email
+//        System.out.println("ValidateJWTtoken -> userDetails.getUsername() "+userDetails.getUsername());  ///Raffay
+//        System.out.println("ValidateJWTtoken -> token exp = "+isTokenExpired(jwtToken));
+//        System.out.println("Validated user = "+flag);
+        return flag;
+
+
+
 //        return (username.equals(userDetails.getUsername()) && userDetails.isAccountNonExpired());
     }
 
@@ -68,16 +80,19 @@ public class JwtUtil {
                 .get("role", String.class);
     }
 
-    public String getUsernameFromJwtToken(String jwtToken) {
-        String username = Jwts.parserBuilder()
+    public String getUserEmailFromJwtToken(String jwtToken) {
+//        System.out.println("getUserEmailFromJwtToken → "+ jwtToken);
+        String userEmail = Jwts.parserBuilder()
                 .setSigningKey(Keys.hmacShaKeyFor(jwtSecret.getBytes()))
                 .build()
                 .parseClaimsJws(jwtToken)
                 .getBody()
                 .getSubject();
-        return username;
+
+        return userEmail;
     }
 
 
 
 }
+

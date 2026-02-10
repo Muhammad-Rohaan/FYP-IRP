@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/az-coaching/home")
+//@RequestMapping("/az-coaching/home")
 public class HomeController {
 
     @Autowired

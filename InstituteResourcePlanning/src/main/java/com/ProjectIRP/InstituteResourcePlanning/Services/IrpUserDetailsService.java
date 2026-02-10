@@ -29,8 +29,8 @@ public class IrpUserDetailsService implements UserDetailsService {
             System.out.println("User with Email: "+userEmail+" not found");
             throw new UsernameNotFoundException("User Not Found");
         }
-        System.out.println(user.getEmail());
-        System.out.println(user.getFullName());
+//        System.out.println(user.getEmail());
+//        System.out.println(user.getFullName());
         return new UserPrincipal(user);
     }
 

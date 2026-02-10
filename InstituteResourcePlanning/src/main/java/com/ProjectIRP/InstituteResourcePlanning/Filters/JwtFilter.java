@@ -10,11 +10,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
-
+@Component
 public class JwtFilter extends OncePerRequestFilter {
 
     private JwtUtil jwtUtil;
@@ -33,15 +34,23 @@ public class JwtFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String authHeader = request.getHeader("Authorization");
+
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             String token = authHeader.substring(7);
-            String username = jwtUtil.getUsernameFromJwtToken(token);
-            if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                UserDetails userDetails = irpUserDetailsService.loadUserByUsername(username);
+            String userEmail = jwtUtil.getUserEmailFromJwtToken(token);
+
+            if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                UserDetails userDetails = irpUserDetailsService.loadUserByUsername(userEmail);
+//                System.out.println("doFilterInternal → userDetails.getAuthorities() "+userDetails.getAuthorities());
+
                 if (jwtUtil.validateJwtToken(token, userDetails)) {
+//                    System.out.println("doFilterInternal → userDetails.getUsername() "+userDetails.getUsername());
                     UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                     authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(authToken);
+//                    System.out.println("OK");
+//                    System.out.println("AUTH HEADER = " + authHeader);
+//                    System.out.println("TOKEN = " + token);
                 }
             }
         }
