@@ -8,7 +8,7 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>IrpAuthenticationService</module>
+        <module>InstituteManagementService</module>
     </modules>
 
 </project>

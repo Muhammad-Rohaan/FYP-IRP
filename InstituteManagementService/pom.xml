@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.projectirp</groupId>
-	<artifactId>IrpAuthenticationService</artifactId>
+	<artifactId>InstituteManagementService</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name/>
 	<description/>
