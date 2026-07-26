@@ -1,6 +1,7 @@
 package com.projectirp.institutemanagementsystem.Models;
 
-import com.projectirp.institutemanagementsystem.Utilities.InstituteRoles;
+
+import com.projectirp.institutemanagementsystem.Utilities.AnnouncementTargets;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -9,35 +10,31 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "users")
+@Table(name = "announcements")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Users {
+public class Announcement {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId;
+    private Long id;
 
     @Column(nullable = false)
-    private String fullName;
+    private String title;
 
-    private String contact;
-
-    @Column(unique = true)
-    private String email;
-
-    @Column(nullable = false)
-    private String password;
+    @Column(nullable = false, columnDefinition = "TEXT")
+    private String message;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private InstituteRoles roles;
+    private AnnouncementTargets target;
 
-    @Column(name = "is_active", nullable = false)
-    private boolean isActive = true;
+    private String className;
+
+    @Column(nullable = false)
+    private String createdBy;
 
     @CreationTimestamp
     private LocalDateTime createdAt;

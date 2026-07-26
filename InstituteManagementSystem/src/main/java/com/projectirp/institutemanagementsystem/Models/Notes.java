@@ -1,6 +1,5 @@
 package com.projectirp.institutemanagementsystem.Models;
 
-import com.projectirp.institutemanagementsystem.Utilities.InstituteRoles;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -9,35 +8,37 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "users")
+@Table(name = "notes")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Users {
+public class Notes {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId;
+    private Long id;
 
     @Column(nullable = false)
-    private String fullName;
-
-    private String contact;
-
-    @Column(unique = true)
-    private String email;
+    private String title;
 
     @Column(nullable = false)
-    private String password;
+    private String subject;
 
-    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private InstituteRoles roles;
+    private String className;
 
-    @Column(name = "is_active", nullable = false)
-    private boolean isActive = true;
+    @Column(nullable = false)
+    private String fileUrl;
+
+    @Column(nullable = false)
+    private String publicId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "uploaded_by", nullable = false)
+    @ToString.Exclude
+    private Users uploadedBy;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
