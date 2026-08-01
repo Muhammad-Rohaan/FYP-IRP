@@ -17,7 +17,7 @@ public class IrpUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String userEmail) throws UsernameNotFoundException {
-//        Users user = userRepo.findByFullName(username);
+//        Users user = userRepo.findByFullName(userEmail);
         Users user = userRepo.findByEmail(userEmail);
 
         if (user == null) {

@@ -66,7 +66,9 @@ public class SecurityConfig {
                 );
 
         // JWT filter
-         http.addFilterBefore(new JwtFilter(jwtUtil, irpUserDetailsService) /*jwtFilter*/ , UsernamePasswordAuthenticationFilter.class);
+//         http.addFilterBefore(new JwtFilter(jwtUtil, irpUserDetailsService) /*jwtFilter*/ , UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+
 
         return http.build();
     }
@@ -89,10 +91,11 @@ public class SecurityConfig {
 //        return daoAuthenticationProvider;
 //    }
 
-    @Bean
-    public UserDetailsService userDetailsService() {
-        return new IrpUserDetailsService();
-    }
+    /// Problematic ***
+//    @Bean
+//    public UserDetailsService userDetailsService() {
+//        return new IrpUserDetailsService();
+//    }
 
 
 

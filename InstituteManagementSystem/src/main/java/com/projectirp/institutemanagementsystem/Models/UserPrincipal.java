@@ -27,6 +27,7 @@ public class UserPrincipal implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
 //        System.out.println(users.getRoles().name());  // ADMIN
         String completeUser = "ROLE_" + users.getRoles().name().toUpperCase();
+        System.out.println(">>> CompleteUser: "+ completeUser);
         return List.of(new SimpleGrantedAuthority(completeUser));
     }
 
