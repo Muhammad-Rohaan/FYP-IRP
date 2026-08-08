@@ -1,6 +1,7 @@
 package com.projectirp.institutemanagementsystem.Controllers;
 
 import com.projectirp.institutemanagementsystem.Models.Users;
+import com.projectirp.institutemanagementsystem.Routes.AuthRoutes;
 import com.projectirp.institutemanagementsystem.Services.CookiesService;
 import com.projectirp.institutemanagementsystem.Services.UserService;
 import com.projectirp.institutemanagementsystem.Utilities.InstituteRoles;
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/auth")
-public class AuthController {
+public class AuthController extends AuthRoutes {
 
     @Autowired
     private UserService userService;
