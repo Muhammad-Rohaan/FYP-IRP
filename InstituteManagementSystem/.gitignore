@@ -8,7 +8,7 @@ application.properties
 src/others/
 **/others
 others/
-jwt_authentication_code.md
+
 
 ### STS ###
 .apt_generated
