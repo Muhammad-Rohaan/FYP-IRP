@@ -4,23 +4,32 @@ package com.projectirp.institutemanagementsystem.Controllers;
 import com.projectirp.institutemanagementsystem.Models.Users;
 import com.projectirp.institutemanagementsystem.Routes.AdminRoutes;
 import com.projectirp.institutemanagementsystem.Services.AdminService;
+import com.projectirp.institutemanagementsystem.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/admin")
+@RequestMapping("/api/admin")
 
 public class AdminController extends AdminRoutes {
 
     @Autowired
     private AdminService adminService;
+    @Autowired
+    private UserService userService;
+    Users user = new Users();
+
+
 
     @Override
-    @GetMapping("/test")
-    public String test() {
-        return adminService.test();
+    @GetMapping("/dashboard")
+    public ResponseEntity<String> dashboard() {
+        System.out.println("adminService.dashboard()__"+adminService.dashboard());
+        return ResponseEntity.status(200).body("Welcome " + adminService.dashboard());
     }
+
+
 
 
 //    // Dashboard

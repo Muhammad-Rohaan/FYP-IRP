@@ -1,5 +1,6 @@
 package com.projectirp.institutemanagementsystem.Config;
 
+//import com.projectirp.institutemanagementsystem.Filters.CsrfCookieFilter;
 import com.projectirp.institutemanagementsystem.Filters.JwtFilter;
 import com.projectirp.institutemanagementsystem.Services.IrpUserDetailsService;
 import com.projectirp.institutemanagementsystem.Utilities.JwtUtil;
@@ -15,6 +16,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.csrf.CsrfFilter;
+import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
+import org.springframework.security.web.csrf.XorCsrfTokenRequestAttributeHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -48,16 +53,27 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//        // 1. Create a clear handler for Spring 7 REST APIs
+//        CsrfTokenRequestAttributeHandler requestHandler = new CsrfTokenRequestAttributeHandler();
+//        // This tells Spring 7 to use standard, raw strings for comparison rather than the complex XOR format
+//        requestHandler.setCsrfRequestAttributeName("_csrf");
 
         http
-                .csrf(csrf -> csrf.disable())
+                // 1. Enable CSRF using standard Cookie repository
+                .csrf(csrf -> csrf.disable()
+//                        .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+//                        .csrfTokenRequestHandler(requestHandler)
+                )
+                // 2. Add the custom filter to instantly resolve and expose the cookie
+//                .addFilterAfter(new CsrfCookieFilter(), UsernamePasswordAuthenticationFilter.class)
+
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/login", "/auth/register-user", "/").permitAll()
-                        .requestMatchers("/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/reception/**").hasRole("RECEPTIONIST")
-                        .requestMatchers("/teacher/**").hasRole("TEACHER")
-                        .requestMatchers("/parent/**").hasRole("PARENT")
-                        .requestMatchers("/student/**").hasRole("STUDENT")
+                        .requestMatchers("/api/auth/login", "/api/auth/register-user", "/").permitAll()
+                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/api/reception/**").hasRole("RECEPTIONIST")
+                        .requestMatchers("/api/teacher/**").hasRole("TEACHER")
+                        .requestMatchers("/api/parent/**").hasRole("PARENT")
+                        .requestMatchers("/api/student/**").hasRole("STUDENT")
                         .anyRequest().authenticated()
                 )
 
@@ -79,7 +95,7 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception{
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
     }
 
@@ -96,7 +112,6 @@ public class SecurityConfig {
 //    public UserDetailsService userDetailsService() {
 //        return new IrpUserDetailsService();
 //    }
-
 
 
 }

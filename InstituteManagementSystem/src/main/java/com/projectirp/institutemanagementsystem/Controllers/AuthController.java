@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 public class AuthController extends AuthRoutes {
 
     @Autowired
@@ -62,13 +62,15 @@ public class AuthController extends AuthRoutes {
 
                 ResponseCookie cookie = cookiesService.createJwtCookie(jwtToken);
                 httpServletResponse.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
-                System.out.println(curUser.getFullName());
+//                System.out.println(curUser.getFullName());
                 httpSession.setAttribute("username", curUser.getFullName());
-            }
+                return ResponseEntity.status(200).body("Login Successful");
+            } else {
+                return ResponseEntity.status(401).body("Invalid credentials");
 
-            return ResponseEntity.status(200).body("Login Successful");
+            }
         } catch (Exception e) {
-            return ResponseEntity.status(401).body("Invalid credentials");
+            return ResponseEntity.status(500).body("# Error in Login() #   " + e.getMessage());
         }
 
     }
