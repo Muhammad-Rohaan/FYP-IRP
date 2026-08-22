@@ -12,7 +12,7 @@ const axiosInstance = axios.create({
 });
 
 export const aiAPI = axios.create({
-    baseURL: "http://localhost:8000/api",
+    baseURL: "http://localhost:8000/api",  // MERN AI app
     // withCredentials: true,
     headers: { "Content-Type": "application/json" },
 });

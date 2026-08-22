@@ -1,10 +1,12 @@
 package com.projectirp.institutemanagementsystem.Controllers;
 
 
+import com.projectirp.institutemanagementsystem.Models.TeacherProfile;
 import com.projectirp.institutemanagementsystem.Models.Users;
 import com.projectirp.institutemanagementsystem.Routes.AdminRoutes;
 import com.projectirp.institutemanagementsystem.Services.AdminService;
 import com.projectirp.institutemanagementsystem.Services.UserService;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,12 +25,17 @@ public class AdminController extends AdminRoutes {
 
 
     @Override
-    @GetMapping("/dashboard")
+    @GetMapping("/dashboard") // test | Will be updated after all endpoints
     public ResponseEntity<String> dashboard() {
         System.out.println("adminService.dashboard()__"+adminService.dashboard());
         return ResponseEntity.status(200).body("Welcome " + adminService.dashboard());
     }
 
+    @Override
+    @PostMapping("/register-teacher")
+    public ResponseEntity<TeacherProfile> registerTeacher(Users user, TeacherProfile teacherProfile) {
+        return null;
+    }
 
 
 
