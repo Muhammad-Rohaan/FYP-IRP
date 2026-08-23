@@ -30,7 +30,7 @@ public class AdminService {
         );
 
         userService.userRegistration(teacherUser);  // user has created but not the teacher profile...
-        TeacherProfile teacherProfile = new TeacherProfile()
+        TeacherProfile teacherProfile = new TeacherProfile();
 
     }
 }
