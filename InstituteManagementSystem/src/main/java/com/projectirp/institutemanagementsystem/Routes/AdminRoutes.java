@@ -1,5 +1,6 @@
 package com.projectirp.institutemanagementsystem.Routes;
 
+import com.projectirp.institutemanagementsystem.DTOs.TeacherRegistrationDto;
 import com.projectirp.institutemanagementsystem.Models.TeacherProfile;
 import com.projectirp.institutemanagementsystem.Models.Users;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,6 @@ public abstract class AdminRoutes {
      * DELETE	/api/admin/az-teachers/delete-teacher/:teacherRegId	Deletes a teacher by their registration ID.
      * */
 
-    public abstract ResponseEntity<TeacherProfile> registerTeacher(@RequestParam Users user, @RequestParam TeacherProfile teacherProfile);
+    public abstract ResponseEntity<TeacherProfile> registerTeacher(@RequestParam TeacherRegistrationDto teacherRegistrationDto);
 
 }

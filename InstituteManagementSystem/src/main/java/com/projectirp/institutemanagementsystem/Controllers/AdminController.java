@@ -1,6 +1,7 @@
 package com.projectirp.institutemanagementsystem.Controllers;
 
 
+import com.projectirp.institutemanagementsystem.DTOs.TeacherRegistrationDto;
 import com.projectirp.institutemanagementsystem.Models.TeacherProfile;
 import com.projectirp.institutemanagementsystem.Models.Users;
 import com.projectirp.institutemanagementsystem.Routes.AdminRoutes;
@@ -20,23 +21,24 @@ public class AdminController extends AdminRoutes {
     private AdminService adminService;
     @Autowired
     private UserService userService;
-    Users user = new Users();
 
+//    Users user = new Users();
 
 
     @Override
     @GetMapping("/dashboard") // test | Will be updated after all endpoints
     public ResponseEntity<String> dashboard() {
-        System.out.println("adminService.dashboard()__"+adminService.dashboard());
+        System.out.println("adminService.dashboard()__" + adminService.dashboard());
         return ResponseEntity.status(200).body("Welcome " + adminService.dashboard());
     }
 
+
     @Override
     @PostMapping("/register-teacher")
-    public ResponseEntity<TeacherProfile> registerTeacher(Users user, TeacherProfile teacherProfile) {
+    public ResponseEntity<TeacherProfile> registerTeacher(TeacherRegistrationDto teacherRegistrationDto) {
+        adminService.registerTeacher(teacherRegistrationDto);
         return null;
     }
-
 
 
 //    // Dashboard

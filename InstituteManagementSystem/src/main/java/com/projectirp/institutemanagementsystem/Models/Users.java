@@ -45,4 +45,13 @@ public class Users {
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;
+
+    public Users(String fullName, String contact, String email, String password, InstituteRoles role, boolean active) {
+        this.fullName = fullName;
+        this.contact = contact;
+        this.email = email;
+        this.password = password;
+        this.roles = role;
+        this.isActive = active;
+    }
 }
