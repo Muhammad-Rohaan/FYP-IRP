@@ -2,6 +2,7 @@ package com.projectirp.institutemanagementsystem.Controllers;
 
 
 import com.projectirp.institutemanagementsystem.DTOs.TeacherRegistrationDto;
+import com.projectirp.institutemanagementsystem.DTOs.TeacherResponseDTO;
 import com.projectirp.institutemanagementsystem.Models.TeacherProfile;
 import com.projectirp.institutemanagementsystem.Routes.AdminRoutes;
 import com.projectirp.institutemanagementsystem.Services.AdminService;
@@ -60,10 +61,11 @@ public class AdminController extends AdminRoutes {
 
     @Override
     @GetMapping("fetch-teachers-by-class/{teacherClass}")
-    public ResponseEntity<List<String>> fetchTeachersByClass(@PathVariable int teacherClass) {
+    public ResponseEntity<TeacherResponseDTO> fetchTeachersByClass(@PathVariable int teacherClass) {
         try {
             List<String> teachersByClass = adminService.fetchTeachersByClass(teacherClass);
-            return ResponseEntity.status(200).body(teachersByClass);
+            TeacherResponseDTO response = new TeacherResponseDTO(teachersByClass);
+            return ResponseEntity.status(200).body(response);
         } catch (RuntimeException e) {
             throw new RuntimeException(e);
 //            return (ResponseEntity<List<TeacherProfile>>) ResponseEntity.status(500);

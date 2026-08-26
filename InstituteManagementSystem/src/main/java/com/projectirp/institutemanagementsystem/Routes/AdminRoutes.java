@@ -1,6 +1,7 @@
 package com.projectirp.institutemanagementsystem.Routes;
 
 import com.projectirp.institutemanagementsystem.DTOs.TeacherRegistrationDto;
+import com.projectirp.institutemanagementsystem.DTOs.TeacherResponseDTO;
 import com.projectirp.institutemanagementsystem.Models.TeacherProfile;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,7 +28,7 @@ public abstract class AdminRoutes {
     public abstract ResponseEntity<String> registerTeacher(@RequestBody TeacherRegistrationDto dto);
 
     public abstract ResponseEntity<List<TeacherProfile>> fetchAllTeachers();
-    public abstract ResponseEntity<List<String>> fetchTeachersByClass(@PathVariable int teacherClass);
+    public abstract ResponseEntity<TeacherResponseDTO> fetchTeachersByClass(@PathVariable int teacherClass);
 
 
 
