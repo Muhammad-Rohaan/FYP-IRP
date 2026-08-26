@@ -5,6 +5,7 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -68,4 +69,19 @@ public class TeacherProfile {
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;
+
+
+
+//    public TeacherProfile(String teacherRegId, String cnic, String qualification, Double salary, LocalDateTime joiningDate, List<String> subjects, List<Integer> classes, String address, Integer age) {
+//        this.teacherRegId = teacherRegId;
+//        this.cnic = cnic;
+//        this.qualification = qualification;
+//        this.salary = salary;
+//        this.joiningDate = joiningDate;
+//        this.subjects = subjects;
+//        this.classes = classes;
+//        this.address = address;
+//        this.age = age;
+//    }
+
 }

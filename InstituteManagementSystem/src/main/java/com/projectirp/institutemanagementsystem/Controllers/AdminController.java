@@ -3,14 +3,15 @@ package com.projectirp.institutemanagementsystem.Controllers;
 
 import com.projectirp.institutemanagementsystem.DTOs.TeacherRegistrationDto;
 import com.projectirp.institutemanagementsystem.Models.TeacherProfile;
-import com.projectirp.institutemanagementsystem.Models.Users;
 import com.projectirp.institutemanagementsystem.Routes.AdminRoutes;
 import com.projectirp.institutemanagementsystem.Services.AdminService;
 import com.projectirp.institutemanagementsystem.Services.UserService;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/admin")
@@ -21,6 +22,7 @@ public class AdminController extends AdminRoutes {
     private AdminService adminService;
     @Autowired
     private UserService userService;
+
 
 //    Users user = new Users();
 
@@ -33,12 +35,49 @@ public class AdminController extends AdminRoutes {
     }
 
 
-    @Override
+
     @PostMapping("/register-teacher")
-    public ResponseEntity<TeacherProfile> registerTeacher(TeacherRegistrationDto teacherRegistrationDto) {
-        adminService.registerTeacher(teacherRegistrationDto);
-        return null;
+    public ResponseEntity<String> registerTeacher(@RequestBody TeacherRegistrationDto dto) {
+        try {
+            String curTeacher = adminService.registerTeacher(dto);
+            return ResponseEntity.status(200).body(curTeacher);
+        } catch (Exception e) {
+            System.out.println(e);
+            return ResponseEntity.status(500).body("ERROR in Register teacher "+e);
+        }
     }
+
+    @Override
+    @GetMapping("/fetch-all-teachers")
+    public ResponseEntity<List<TeacherProfile>> fetchAllTeachers() {
+        try {
+            List<TeacherProfile> allTeachers = adminService.fetchAllTeachers();
+            return ResponseEntity.status(200).body(allTeachers);
+        } catch (Exception e) {
+            return (ResponseEntity<List<TeacherProfile>>) ResponseEntity.status(500);
+        }
+    }
+
+    @Override
+    @GetMapping("fetch-teachers-by-class/{teacherClass}")
+    public ResponseEntity<List<String>> fetchTeachersByClass(@PathVariable int teacherClass) {
+        try {
+            List<String> teachersByClass = adminService.fetchTeachersByClass(teacherClass);
+            return ResponseEntity.status(200).body(teachersByClass);
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e);
+//            return (ResponseEntity<List<TeacherProfile>>) ResponseEntity.status(500);
+        }
+    }
+
+
+}
+
+/*
+* //    @PostMapping("/test")
+//    public String test() {
+//        return "Post Working.";
+//    }
 
 
 //    // Dashboard
@@ -119,5 +158,4 @@ public class AdminController extends AdminRoutes {
 //    // Finances
 //    @GetMapping("/finances")
 //    public ResponseEntity<?> getFinances() { }
-
-}
+* */
