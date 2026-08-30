@@ -97,6 +97,7 @@ public class AdminController extends AdminRoutes {
     }
 
     @Override
+    @DeleteMapping("/delete-teacher/{teacherRegId}")
     public ResponseEntity<String> deleteTeacher(String teacherRegId) {
         try {
             String response = adminService.deleteTeacher(teacherRegId);

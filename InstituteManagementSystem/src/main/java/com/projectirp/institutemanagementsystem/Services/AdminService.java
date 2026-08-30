@@ -106,7 +106,7 @@ public class AdminService {
                 curTeacher.setContact(teacherProfile.getContact());
                 curTeacher.setAddress(teacherProfile.getAddress());
                 curTeacher.setAge(teacherProfile.getAge());
-                
+
                 curTeacher.getSubjects().clear();
                 if (teacherProfile.getSubjects() != null) {
                     curTeacher.getSubjects().addAll(teacherProfile.getSubjects());
@@ -123,14 +123,25 @@ public class AdminService {
         }
     }
 
+    @Transactional
     public String deleteTeacher(String teacherRegId) {
-        TeacherProfile existingTeacher = teacherRepo.findTeacherByRegId(teacherRegId);
-        Users existingTeacherUserId = existingTeacher.getUserId();
-//        existingTeacherUserId.getUserId();  // Long UserID
-        if (existingTeacherUserId != null) {
-            userRepo.deleteById(existingTeacherUserId.getUserId()); // del from the user as well
-            teacherRepo.deleteTeacherByRegId(teacherRegId);
+        try {
+            TeacherProfile existingTeacher = teacherRepo.findTeacherByRegId(teacherRegId);
+            if (existingTeacher == null) {
+                throw new RuntimeException("404 - Not Found");
+            } else {
+                teacherRepo.delete(existingTeacher);
+//                teacherRepo.deleteTeacherByRegId(teacherRegId);
+                Users existingTeacherUser = existingTeacher.getUserId();
+                if (existingTeacherUser != null) {
+                    userRepo.delete(existingTeacherUser); // del from the user as well
+                } else {
+
+                }
+            }
+            return "Deleted Teacher "+existingTeacher.getTeacherFullName();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
-        return teacherRepo.deleteTeacherByRegId(teacherRegId);
     }
 }

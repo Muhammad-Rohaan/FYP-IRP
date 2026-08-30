@@ -32,11 +32,6 @@ public interface TeacherRepo extends JpaRepository<TeacherProfile, Long> {
             nativeQuery = true)
     TeacherProfile findTeacherByRegId(@Param("teacherRegId") String teacherRegId);
 
-    @Query(value = """
-            DELETE * from teacher_profiles where teacher_reg_id = :teacherRegId;
-            """,
-            nativeQuery = true)
-    String deleteTeacherByRegId(String teacherRegId);
 }
 
 
