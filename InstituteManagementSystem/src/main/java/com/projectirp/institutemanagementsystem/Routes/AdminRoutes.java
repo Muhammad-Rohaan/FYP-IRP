@@ -29,7 +29,10 @@ public abstract class AdminRoutes {
 
     public abstract ResponseEntity<List<TeacherProfile>> fetchAllTeachers();
     public abstract ResponseEntity<TeacherResponseDTO> fetchTeachersByClass(@PathVariable int teacherClass);
+    public abstract ResponseEntity<TeacherResponseDTO> fetchTeachersByClassAndSubject(@PathVariable int teacherClass, @PathVariable String teacherSubject);
 
+    public abstract ResponseEntity<TeacherProfile> updateTeacher(@PathVariable String teacherRegId , @RequestBody TeacherProfile teacherProfile);
+    public abstract ResponseEntity<String> deleteTeacher(@PathVariable String teacherRegId);
 
 
 

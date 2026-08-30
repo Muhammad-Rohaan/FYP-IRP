@@ -36,7 +36,6 @@ public class AdminController extends AdminRoutes {
     }
 
 
-
     @PostMapping("/register-teacher")
     public ResponseEntity<String> registerTeacher(@RequestBody TeacherRegistrationDto dto) {
         try {
@@ -44,7 +43,7 @@ public class AdminController extends AdminRoutes {
             return ResponseEntity.status(200).body(curTeacher);
         } catch (Exception e) {
             System.out.println(e);
-            return ResponseEntity.status(500).body("ERROR in Register teacher "+e);
+            return ResponseEntity.status(500).body("ERROR in Register teacher " + e);
         }
     }
 
@@ -60,11 +59,47 @@ public class AdminController extends AdminRoutes {
     }
 
     @Override
-    @GetMapping("fetch-teachers-by-class/{teacherClass}")
+    @GetMapping("/fetch-teachers-by-class/{teacherClass}")
     public ResponseEntity<TeacherResponseDTO> fetchTeachersByClass(@PathVariable int teacherClass) {
         try {
             List<String> teachersByClass = adminService.fetchTeachersByClass(teacherClass);
             TeacherResponseDTO response = new TeacherResponseDTO(teachersByClass);
+            return ResponseEntity.status(200).body(response);
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e);
+//            return (ResponseEntity<List<TeacherProfile>>) ResponseEntity.status(500);
+        }
+    }
+
+    @Override
+    @GetMapping("/fetch-teachers-by-class-and-subject/{teacherClass}/{teacherSubject}")
+    public ResponseEntity<TeacherResponseDTO> fetchTeachersByClassAndSubject(@PathVariable int teacherClass, @PathVariable String teacherSubject) {
+        try {
+            List<String> teachersByClassAndSubject = adminService.fetchTeachersByClassAndSubject(teacherClass, teacherSubject);
+            TeacherResponseDTO response = new TeacherResponseDTO(teachersByClassAndSubject);
+            return ResponseEntity.status(200).body(response);
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e);
+//            return (ResponseEntity<List<TeacherProfile>>) ResponseEntity.status(500);
+        }
+    }
+
+    @Override
+    @PutMapping("/update-teacher/{teacherRegId}")
+    public ResponseEntity<TeacherProfile> updateTeacher(@PathVariable String teacherRegId, @RequestBody TeacherProfile teacherProfile) {
+        try {
+            TeacherProfile response = adminService.updateTeacher(teacherRegId, teacherProfile);
+            return ResponseEntity.status(200).body(response);
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e);
+//            return (ResponseEntity<List<TeacherProfile>>) ResponseEntity.status(500);
+        }
+    }
+
+    @Override
+    public ResponseEntity<String> deleteTeacher(String teacherRegId) {
+        try {
+            String response = adminService.deleteTeacher(teacherRegId);
             return ResponseEntity.status(200).body(response);
         } catch (RuntimeException e) {
             throw new RuntimeException(e);

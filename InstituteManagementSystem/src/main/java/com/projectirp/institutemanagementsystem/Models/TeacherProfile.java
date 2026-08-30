@@ -3,10 +3,12 @@ package com.projectirp.institutemanagementsystem.Models;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -16,6 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+//@DynamicUpdate
 public class TeacherProfile {
 
     @Id
@@ -45,15 +48,15 @@ public class TeacherProfile {
     @Column(nullable = false)
     private LocalDateTime joiningDate = LocalDateTime.now();
 
-    @ElementCollection
-    @CollectionTable(name = "teacher_subjects", joinColumns = @JoinColumn(name = "teacher_profile_id"))
-    @Column(name = "subject", nullable = false)
-    private List<String> subjects;
+    //    @ElementCollection
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "teacher_profile_id", nullable = false) // This puts the FK on the child table
+    private List<TeacherSubject> subjects = new ArrayList<>();
 
-    @ElementCollection
-    @CollectionTable(name = "teacher_classes", joinColumns = @JoinColumn(name = "teacher_profile_id"))
-    @Column(name = "class_number", nullable = false)
-    private List<Integer> classes;
+    //        @ElementCollection
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "teacher_profile_id", nullable = false)
+    private List<TeacherClasses> classes = new ArrayList<>();
 
     @Column(nullable = false)
     private String contact;
@@ -69,7 +72,6 @@ public class TeacherProfile {
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;
-
 
 
 //    public TeacherProfile(String teacherRegId, String cnic, String qualification, Double salary, LocalDateTime joiningDate, List<String> subjects, List<Integer> classes, String address, Integer age) {

@@ -8,6 +8,7 @@ import com.projectirp.institutemanagementsystem.Repositories.UserRepo;
 import com.projectirp.institutemanagementsystem.Utilities.InstituteRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.management.relation.Relation;
 import java.util.List;
@@ -77,5 +78,59 @@ public class AdminService {
         } catch (RuntimeException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public List<String> fetchTeachersByClassAndSubject(int teacherClass, String teacherSubject) {
+        try {
+            return teacherRepo.fetchTeachersByClassAndSubject(teacherClass, teacherSubject);
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Transactional
+    public TeacherProfile updateTeacher(String teacherRegId, TeacherProfile teacherProfile) {
+        try {
+            TeacherProfile curTeacher = teacherRepo.findTeacherByRegId(teacherRegId);
+            if (curTeacher == null) {
+                throw new RuntimeException("No Teacher Found with RegID = " + teacherRegId);
+            } else {
+                curTeacher.setTeacherFullName(teacherProfile.getTeacherFullName());
+                curTeacher.setTeacherRegId(teacherProfile.getTeacherRegId());
+                curTeacher.setCnic(teacherProfile.getCnic());
+                curTeacher.setQualification(teacherProfile.getQualification());
+                curTeacher.setSalary(teacherProfile.getSalary());
+                curTeacher.setJoiningDate(teacherProfile.getJoiningDate());
+//                curTeacher.setSubjects(teacherProfile.getSubjects());
+//                curTeacher.setClasses(teacherProfile.getClasses());
+                curTeacher.setContact(teacherProfile.getContact());
+                curTeacher.setAddress(teacherProfile.getAddress());
+                curTeacher.setAge(teacherProfile.getAge());
+                
+                curTeacher.getSubjects().clear();
+                if (teacherProfile.getSubjects() != null) {
+                    curTeacher.getSubjects().addAll(teacherProfile.getSubjects());
+                }
+                curTeacher.getClasses().clear(); // Triggers DELETE for old classes
+                if (teacherProfile.getClasses() != null) {
+                    curTeacher.getClasses().addAll(teacherProfile.getClasses()); // Triggers INSERT for new ones
+                }
+
+            }
+            return teacherRepo.save(curTeacher);
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public String deleteTeacher(String teacherRegId) {
+        TeacherProfile existingTeacher = teacherRepo.findTeacherByRegId(teacherRegId);
+        Users existingTeacherUserId = existingTeacher.getUserId();
+//        existingTeacherUserId.getUserId();  // Long UserID
+        if (existingTeacherUserId != null) {
+            userRepo.deleteById(existingTeacherUserId.getUserId()); // del from the user as well
+            teacherRepo.deleteTeacherByRegId(teacherRegId);
+        }
+        return teacherRepo.deleteTeacherByRegId(teacherRegId);
     }
 }

@@ -1,5 +1,7 @@
 package com.projectirp.institutemanagementsystem.DTOs;
 
+import com.projectirp.institutemanagementsystem.Models.TeacherClasses;
+import com.projectirp.institutemanagementsystem.Models.TeacherSubject;
 import com.projectirp.institutemanagementsystem.Utilities.InstituteRoles;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,8 +29,8 @@ public class TeacherRegistrationDto {
     private String qualification;
     private Double salary;
     private LocalDateTime joiningDate;
-    private List<String> subjects;
-    private List<Integer> classes;
+    private List<TeacherSubject> subjects;
+    private List<TeacherClasses> classes;
     private String address;
     private Integer age;
 
